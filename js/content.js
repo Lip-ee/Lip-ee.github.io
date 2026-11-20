@@ -41,6 +41,7 @@ export const ACHIEVEMENTS = [
   { id: 'bilingual', icon: '🌎', pt: ['Bilíngue', 'Trocou o idioma do portfolio.'], en: ['Bilingual', 'Switched the portfolio language.'] },
   { id: 'contact', icon: '🤝', pt: ['Networking', 'Executou o contato.sh.'], en: ['Networking', 'Ran contact.sh.'] },
   { id: 'video', icon: '📺', pt: ['Bora pro canal', 'Abriu o Debugando ou um dos vídeos.'], en: ['Off to the channel', 'Opened Debugando or one of its videos.'] },
+  { id: 'gamer', icon: '🎮', pt: ['Player 1', 'Abriu um dos jogos no quarto.'], en: ['Player 1', 'Opened one of the games in the room.'] },
   { id: 'sudo', icon: '🚫', secret: true, pt: ['Boa tentativa', 'Tentou usar sudo.'], en: ['Nice try', 'Tried to use sudo.'] },
   { id: 'friday', icon: '🔥', secret: true, pt: ['Vive perigosamente', 'Rodou deploy numa sexta-feira.'], en: ['Living dangerously', 'Ran deploy on a Friday.'] },
   { id: 'npc', icon: '🧍', secret: true, pt: ['Deixa o NPC em paz', 'Clicou no NPC 10 vezes.'], en: ['Leave the NPC alone', 'Clicked the NPC 10 times.'] },
@@ -354,6 +355,13 @@ export const UI = {
     unlocked: 'desbloqueada',
     locked: 'bloqueada',
     npcLabel: 'NPC. Clique pra conversar, dois cliques pra mandar embora.',
+    roomRole: 'Dev na LíderHub e criador do Debugando',
+    roomHint: 'Clique no computador, na TV ou nas caixas dos jogos',
+    roomLoading: 'Montando o quarto...',
+    roomNav: 'Atalhos do quarto',
+    actPortfolio: 'Portfolio',
+    backToRoom: 'Voltar pro quarto',
+    room: { pc: 'Entrar no portfolio', tv: 'Debugando: abrir o canal', deploy: 'Deploy de Sexta: jogar', mars: 'Mike on Mars: jogar' },
     npc: {
       greet: 'Olá, viajante. Bem-vindo à casa do Filipe.',
       ambient: [
@@ -451,6 +459,13 @@ export const UI = {
     unlocked: 'unlocked',
     locked: 'locked',
     npcLabel: 'NPC. Click to chat, double-click to send him away.',
+    roomRole: 'Developer at LíderHub and creator of Debugando',
+    roomHint: 'Click the computer, the TV or the game boxes',
+    roomLoading: 'Setting up the room...',
+    roomNav: 'Room shortcuts',
+    actPortfolio: 'Portfolio',
+    backToRoom: 'Back to the room',
+    room: { pc: 'Enter the portfolio', tv: 'Debugando: open the channel', deploy: 'Deploy de Sexta: play', mars: 'Mike on Mars: play' },
     npc: {
       greet: "Hello, traveler. Welcome to Filipe's place.",
       ambient: [

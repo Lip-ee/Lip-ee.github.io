@@ -238,7 +238,10 @@ function closeTab(id) {
 
 function route() {
   const id = location.hash.replace(/^#\/?/, '');
-  if (fileById(id)) openFile(id);
+  if (fileById(id)) {
+    openFile(id);
+    if (win.classList.contains('is-hidden') && inRoomMode()) enterPortfolio();
+  }
   if (mobile.matches) setSidebar(false);
 }
 
@@ -271,6 +274,12 @@ function applyStaticText() {
   updateMaxLabel();
   updateBugStatus();
   npc.setLabel(t.npcLabel);
+  if (inRoomMode()) {
+    for (const dot of document.querySelectorAll('.dot-min, .dot-close')) {
+      dot.setAttribute('aria-label', t.backToRoom);
+      dot.title = t.backToRoom;
+    }
+  }
 }
 
 /* ---------- Painéis e janela ---------- */
@@ -311,17 +320,20 @@ function windowAction(action) {
     setTimeout(() => win.classList.remove('is-animating'), 300);
     updateMaxLabel();
   } else if (action === 'minimize' || action === 'close') {
-    if (action === 'close') {
-      state.tabs = ['about'];
-      state.active = 'about';
-      history.replaceState(null, '', urlFor(null));
-      setTerminal(false);
-      render();
-    }
+    if (action === 'close') closeAllTabs();
+    if (inRoomMode()) return leavePortfolio();
     win.classList.add('is-hidden');
     $('#desktop-icon').hidden = false;
     $('#desktop-icon').focus();
   }
+}
+
+function closeAllTabs() {
+  state.tabs = ['about'];
+  state.active = 'about';
+  history.replaceState(null, '', urlFor(null));
+  setTerminal(false);
+  render();
 }
 
 function reopenWindow() {
@@ -402,15 +414,114 @@ const npc = createNpc({
   onClicks: (n) => n >= 10 && trophies.unlock('npc'),
 });
 
-setTimeout(() => npc.react('greet', { force: true }), 5000);
+/* ---------- Quarto 3D ---------- */
+
+const GAMES = {
+  deploy: 'https://lip-ee.github.io/deploy-de-sexta/',
+  mars: 'https://out-of-space-exception.github.io/mike-on-mars/',
+};
+let room = null;
+let extrasStarted = false;
+const inRoomMode = () => document.body.classList.contains('has-room');
+
+// Bugs e NPC só começam quando a pessoa entra no portfolio.
+function startExtras() {
+  if (extrasStarted) return;
+  extrasStarted = true;
+  setTimeout(startBugs, 2500);
+  setTimeout(() => npc.react('greet', { force: true }), 5000);
+}
+
+function showWindow() {
+  win.classList.remove('is-hidden');
+  document.body.classList.add('in-portfolio');
+  $('#desktop-icon').hidden = true;
+  startExtras();
+}
+
+async function enterPortfolio() {
+  if (room && !document.body.classList.contains('in-portfolio')) await room.enter();
+  showWindow();
+}
+
+function leavePortfolio() {
+  win.classList.add('is-hidden');
+  document.body.classList.remove('in-portfolio');
+  room?.exit();
+}
+
+function roomAction(id) {
+  if (id === 'pc') return enterPortfolio();
+  if (id === 'tv') {
+    window.open(LINKS.find((l) => l.id === 'youtube').url, '_blank', 'noopener');
+    trophies.unlock('video');
+  } else {
+    window.open(GAMES[id], '_blank', 'noopener');
+    trophies.unlock('gamer');
+  }
+}
+
+for (const act of document.querySelectorAll('.room-act')) {
+  const id = act.dataset.target;
+  act.addEventListener('pointerenter', () => room?.highlight(id));
+  act.addEventListener('pointerleave', () => room?.highlight(null));
+  act.addEventListener('focus', () => room?.highlight(id));
+  act.addEventListener('blur', () => room?.highlight(null));
+}
+$('.room-act-main').addEventListener('click', enterPortfolio);
+$('#home-btn').addEventListener('click', leavePortfolio);
+
+function bootRoom(deepLink) {
+  let webgl = false;
+  try {
+    webgl = !!document.createElement('canvas').getContext('webgl2');
+  } catch {
+    /* sem WebGL: fica só o portfolio */
+  }
+  if (!webgl) return showWindow();
+
+  document.body.classList.add('has-room');
+  $('#room').hidden = false;
+  if (deepLink) showWindow();
+  else win.classList.add('is-hidden');
+
+  const fallback = () => {
+    document.body.classList.remove('has-room');
+    $('#room').hidden = true;
+    showWindow();
+    applyStaticText();
+  };
+  // Se o 3D demorar demais (internet lenta), abre o portfolio e o quarto termina de carregar atrás.
+  const slow = setTimeout(showWindow, 12000);
+
+  import('./room.js')
+    .then(({ createRoom }) =>
+      createRoom({ stage: $('#room-stage'), tip: $('#room-tip'), labels: () => ui().room, onAction: roomAction }),
+    )
+    .then((r) => {
+      clearTimeout(slow);
+      room = r;
+      $('#room-loading').hidden = true;
+      if (document.body.classList.contains('in-portfolio')) r.jumpIn();
+    })
+    .catch((err) => {
+      clearTimeout(slow);
+      console.warn('Quarto 3D indisponível:', err);
+      fallback();
+    });
+}
 
 if (new Date().getHours() < 5) setTimeout(() => trophies.unlock('night'), 3500);
 
-setTimeout(() => {
+document.addEventListener('click', (e) => {
+  if (e.target.closest('[data-game]')) trophies.unlock('gamer');
+});
+
+function startBugs() {
   bugsStarted = true;
   spawnBugs(3);
   notify({ icon: '🐛', title: ui().bugsArrived, text: ui().bugsArrivedText });
-}, 2500);
+}
 
 /* ---------- Eventos ---------- */
 
@@ -510,6 +621,7 @@ if (fileById(initial) && initial !== 'about') {
 }
 
 state.tabs.forEach((id) => visited.add(id));
+bootRoom(Boolean(fileById(initial)));
 applyStaticText();
 updateTrophyStatus();
 setSidebar(state.sidebar);

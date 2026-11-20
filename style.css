@@ -1456,6 +1456,254 @@ svg {
     scrollbar-color: rgba(98, 114, 164, 0.5) transparent;
 }
 
+/* ---------- Quarto 3D ---------- */
+
+.room {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+}
+
+.room-stage {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background:
+        radial-gradient(80rem 50rem at 30% 20%, rgba(189, 147, 249, 0.22), transparent 60%),
+        radial-gradient(60rem 40rem at 90% 100%, rgba(255, 121, 198, 0.16), transparent 60%),
+        var(--bg-deep);
+    transition:
+        filter 0.6s ease,
+        transform 0.6s ease;
+}
+
+.room-gl,
+.room-css {
+    position: absolute !important;
+    inset: 0;
+}
+
+.room-css {
+    pointer-events: none;
+}
+
+.room-gl {
+    touch-action: manipulation;
+}
+
+.room-tv {
+    position: relative;
+    width: 1280px;
+    height: 720px;
+    background: #0d0d12;
+}
+
+.room-tv iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.room-tv-card {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 24px;
+    color: #f8f8f2;
+    font: 700 110px var(--mono);
+    background: radial-gradient(circle at 50% 40%, #3a1d5c, #0d0d12 70%);
+}
+
+.room-tv-card span {
+    display: grid;
+    place-items: center;
+    width: 260px;
+    height: 180px;
+    border-radius: 48px;
+    background: #ff0033;
+    font-size: 100px;
+}
+
+.room-top,
+.room-bottom {
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    padding: 20px 24px;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.room-top {
+    top: 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.room-top > * {
+    pointer-events: auto;
+}
+
+.room-name {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+}
+
+.room-role {
+    margin: 2px 0 0;
+    color: var(--muted);
+    font-size: 14px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+.room-bottom {
+    bottom: 0;
+    display: grid;
+    justify-items: center;
+    gap: 10px;
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+}
+
+.room-hint {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+.room-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    pointer-events: auto;
+}
+
+.room-act {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: rgba(25, 26, 33, 0.72);
+    border: 1px solid rgba(248, 248, 242, 0.14);
+    color: var(--fg);
+    font-size: 14px;
+    text-decoration: none;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.room-act:hover,
+.room-act:focus-visible {
+    background: rgba(68, 71, 90, 0.9);
+    transform: translateY(-2px);
+}
+
+.room-act-main {
+    border-color: rgba(80, 250, 123, 0.55);
+    box-shadow: 0 0 24px rgba(80, 250, 123, 0.18);
+}
+
+.room-tip {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 3;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: rgba(25, 26, 33, 0.92);
+    border: 1px solid var(--line);
+    font-size: 13px;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.room-loading {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 14px;
+    color: var(--muted);
+}
+
+.room-spinner {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 3px solid var(--line);
+    border-top-color: var(--purple);
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        rotate: 360deg;
+    }
+}
+
+.home-btn {
+    display: none;
+}
+
+.has-room .home-btn {
+    display: grid;
+}
+
+/* A janela do portfolio cresce de dentro do monitor e o quarto fica desfocado atrás. */
+.has-room .window {
+    position: relative;
+    z-index: 2;
+    transition:
+        opacity 0.45s ease,
+        transform 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.05),
+        visibility 0s;
+}
+
+.has-room .window.is-hidden {
+    opacity: 0;
+    transform: scale(0.55);
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease,
+        visibility 0s 0.3s;
+}
+
+.in-portfolio .room-stage {
+    filter: blur(10px) brightness(0.45) saturate(1.2);
+    transform: scale(1.05);
+}
+
+.in-portfolio .room-top,
+.in-portfolio .room-bottom,
+.in-portfolio .room-tip {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.in-portfolio .room-top > *,
+.in-portfolio .room-actions {
+    pointer-events: none;
+}
+
 /* ---------- Sem JavaScript ---------- */
 
 .noscript {
@@ -1616,6 +1864,27 @@ svg {
 
     .trophies {
         padding: 20px 14px 40px;
+    }
+
+    .room-top {
+        padding: 14px 16px;
+    }
+
+    .room-name {
+        font-size: 19px;
+    }
+
+    .room-role {
+        font-size: 12.5px;
+    }
+
+    .room-bottom {
+        padding: 12px 12px max(14px, env(safe-area-inset-bottom));
+    }
+
+    .room-act {
+        padding: 9px 13px;
+        font-size: 13px;
     }
 }
 
