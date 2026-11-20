@@ -1,72 +1,222 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-    <title>Portfolio</title>
+    <title>Filipe Campos | Dev</title>
+    <meta name="description"
+        content="Portfolio do Filipe Campos: dev na LíderHub e criador do Debugando, canal que explica games, filmes e séries por dentro, com código de verdade.">
+    <meta name="theme-color" content="#21222c">
+    <link rel="canonical" href="https://lip-ee.github.io/portfolio/">
+
+    <!-- prévia ao compartilhar o link (LinkedIn, WhatsApp, etc.) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://lip-ee.github.io/portfolio/">
+    <meta property="og:title" content="Filipe Campos | Dev">
+    <meta property="og:description"
+        content="Dev na LíderHub e criador do Debugando, canal que explica games, filmes e séries por dentro, com código de verdade.">
+    <meta property="og:image" content="https://lip-ee.github.io/portfolio/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap">
 
     <link rel="stylesheet" href="style.css">
-
-    <style>
-        /* font import */
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-    </style>
+    <noscript>
+        <style>
+            .window {
+                display: none;
+            }
+        </style>
+    </noscript>
+    <script type="module" src="js/app.js"></script>
 </head>
 
 <body>
 
-    <main>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <symbol id="logo" viewBox="0 0 32 32">
+            <path d="M11 9.5 4.5 16l6.5 6.5" fill="none" stroke="#ff79c6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M21 9.5 27.5 16 21 22.5" fill="none" stroke="#bd93f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M18.5 7 13.5 25" fill="none" stroke="#50fa7b" stroke-width="3" stroke-linecap="round" />
+        </symbol>
+    </svg>
 
-        <div class="main-vscode-window">
+    <h1 class="sr-only" data-i18n="srTitle">Filipe Campos, desenvolvedor</h1>
 
-            <div class="window-header">
+    <noscript>
+        <div class="noscript">
+            <p><strong>Filipe Campos</strong>: dev na LíderHub e criador do Debugando.</p>
+            <p>Desenvolvo features da plataforma da LíderHub e investigo bug em produção. Fora do trabalho, tenho o
+                Debugando, um canal no YouTube que explica games, filmes e séries por dentro, com código de verdade.</p>
+            <p>
+                <a href="https://www.linkedin.com/in/devlipe/">LinkedIn</a> ·
+                <a href="https://github.com/Lip-ee">GitHub</a> ·
+                <a href="https://youtube.com/@debugandotv">YouTube</a>
+            </p>
+        </div>
+    </noscript>
 
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg"
-                    alt="vscode icon" width="29px" id="vscode-icon" />
+    <div class="window" id="window">
 
-                <img src="./assets/img/window-buttons.png" alt="window-buttons" width="70px" id="window-buttons">
+        <header class="titlebar">
+            <button class="icon-btn menu-btn" id="menu-btn" aria-controls="sidebar" aria-expanded="false"
+                data-i18n-label="toggleExplorer">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                    aria-hidden="true">
+                    <path d="M4 7h16M4 12h16M4 17h16" />
+                </svg>
+            </button>
 
-            </div>
+            <img class="titlebar-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg"
+                alt="" width="18" height="18">
 
-            <div class="files-space">
+            <p class="titlebar-title" id="window-title">filipe-campos</p>
 
-                <nav class="left-files-list">
-                    <ul>
-                        <li><a href="">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg"
-                                    alt="javascript logo" width="39px">
-                                <span>portfolio.js</span></a>
-                        </li>
-                        <li><a href="https://github.com/Lip-ee" target="_blank">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg"
-                                    alt="github logo" width="39px">
-                                <span>github.git</span></a>
-                        </li>
-                        <li><a href="https://www.linkedin.com/in/devlipe/" target="_blank">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linkedin/linkedin-original.svg"
-                                    alt="linkedin logo" width="39px">
-                                <span>linked.in</span></a>
-                        </li>
-                        <li><a href="https://www.instagram.com/lipope_/" target="_blank">
-                                <img src="./assets/img/instagram.svg" alt="instagram logo" width="39px">
-                                <span>insta.com</span></a>
-                        </li>
-                    </ul>
-                </nav>
+            <div class="titlebar-right">
+                <div class="lang-switch" role="group" data-i18n-label="language">
+                    <button type="button" data-lang="pt" aria-pressed="true">PT</button>
+                    <button type="button" data-lang="en" aria-pressed="false">EN</button>
+                </div>
 
-            </div>
-
-            <div class="main-content-space">
-                <div class="fixed-opened-files-bar"></div>
-                <div class="fixed-content-area">
+                <div class="win-dots">
+                    <button type="button" class="dot dot-max" data-action="maximize" aria-label="Maximizar"></button>
+                    <button type="button" class="dot dot-min" data-action="minimize" data-i18n-label="minimize"></button>
+                    <button type="button" class="dot dot-close" data-action="close" data-i18n-label="close"></button>
                 </div>
             </div>
+        </header>
 
+        <div class="workbench">
+
+            <nav class="activitybar" aria-label="Menu">
+                <button type="button" class="act-btn" id="act-explorer" aria-pressed="true" data-i18n-label="toggleExplorer">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                        stroke-linejoin="round" aria-hidden="true">
+                        <path d="M13.5 3H8a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1V7.5z" />
+                        <path d="M13.5 3v4.5H18" />
+                        <path d="M7 7H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1v-3" />
+                    </svg>
+                </button>
+                <button type="button" class="act-btn" id="act-terminal" aria-pressed="false" data-i18n-label="toggleTerminal">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                        stroke-linejoin="round" aria-hidden="true">
+                        <rect x="3" y="4.5" width="18" height="15" rx="2" />
+                        <path d="m7 9.5 3 2.5-3 2.5M12.5 15H17" />
+                    </svg>
+                </button>
+            </nav>
+
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <h2 data-i18n="explorer">Explorador</h2>
+                    <button type="button" class="icon-btn sidebar-close" id="sidebar-close" data-i18n-label="closeExplorer">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                            aria-hidden="true">
+                            <path d="M6.5 6.5l11 11M17.5 6.5l-11 11" />
+                        </svg>
+                    </button>
+                </div>
+                <nav class="sidebar-section" aria-labelledby="root-title">
+                    <h3 class="section-title" id="root-title">filipe-campos</h3>
+                    <ul class="tree" id="file-tree"></ul>
+                </nav>
+                <nav class="sidebar-section" aria-labelledby="links-title">
+                    <h3 class="section-title" id="links-title" data-i18n="links">Links</h3>
+                    <ul class="tree" id="link-list"></ul>
+                </nav>
+            </aside>
+
+            <div class="backdrop" id="backdrop" aria-hidden="true"></div>
+
+            <main class="editor-group">
+                <div class="tabs-row">
+                    <div class="tabs" id="tabs" role="tablist"></div>
+                    <div class="editor-actions" id="editor-actions"></div>
+                </div>
+                <div class="breadcrumbs" id="breadcrumbs"></div>
+                <div class="editor" id="editor" role="tabpanel" tabindex="0"></div>
+
+                <section class="panel" id="panel" aria-labelledby="panel-title" hidden>
+                    <div class="panel-header">
+                        <h2 class="panel-title" id="panel-title" data-i18n="terminal">Terminal</h2>
+                        <button type="button" class="icon-btn" id="panel-close" data-i18n-label="close">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+                                stroke-linecap="round" aria-hidden="true">
+                                <path d="M6.5 6.5l11 11M17.5 6.5l-11 11" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="term" id="term">
+                        <div class="term-out" id="term-out" aria-live="polite"></div>
+                        <form class="term-line" id="term-form">
+                            <label class="term-prompt" for="term-input">filipe@portfolio:~$</label>
+                            <input class="term-input" id="term-input" type="text" autocomplete="off"
+                                autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="send">
+                        </form>
+                    </div>
+                </section>
+            </main>
         </div>
 
-    </main>
+        <footer class="statusbar">
+            <div class="status-left">
+                <span class="status-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                        aria-hidden="true">
+                        <circle cx="7" cy="5.5" r="2" />
+                        <circle cx="7" cy="18.5" r="2" />
+                        <circle cx="17" cy="7.5" r="2" />
+                        <path d="M7 7.5v9M17 9.5c0 4-10 2.5-10 7" />
+                    </svg>
+                    main
+                </span>
+                <span class="status-item" data-i18n-label="bugs">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                        aria-hidden="true">
+                        <circle cx="12" cy="12" r="8.5" />
+                        <path d="m9 9 6 6M15 9l-6 6" />
+                    </svg>
+                    0
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                        stroke-linejoin="round" aria-hidden="true">
+                        <path d="M12 3.5 21.5 20h-19z" />
+                        <path d="M12 10v4.5M12 17.2v.1" />
+                    </svg>
+                    0
+                </span>
+            </div>
+            <div class="status-right">
+                <span class="status-item status-lang" id="status-lang">Markdown</span>
+                <span class="status-item status-enc">UTF-8</span>
+                <button type="button" class="status-item status-btn" id="status-terminal" aria-pressed="false"
+                    data-i18n-label="toggleTerminal">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                        stroke-linejoin="round" aria-hidden="true">
+                        <rect x="3" y="4.5" width="18" height="15" rx="2" />
+                        <path d="m7 9.5 3 2.5-3 2.5M12.5 15H17" />
+                    </svg>
+                    <span data-i18n="terminal">Terminal</span>
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <button type="button" class="desktop-icon" id="desktop-icon" hidden>
+        <svg viewBox="0 0 32 32" aria-hidden="true"><use href="#logo" /></svg>
+        <span data-i18n="reopen">Abrir o portfolio</span>
+    </button>
 
 </body>
 
