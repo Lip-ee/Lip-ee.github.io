@@ -2,6 +2,8 @@ import { BADGES, FILES, FOLDERS, LANGUAGES, LINKS, ROOT, UI } from './content.js
 import { escapeHTML, highlight } from './highlight.js';
 import { icon } from './icons.js';
 import { createTerminal } from './terminal.js';
+import { createBugs } from './bugs.js';
+import { toast } from './toast.js';
 
 const $ = (selector) => document.querySelector(selector);
 const mobile = matchMedia('(max-width: 767px)');
@@ -201,6 +203,10 @@ function render(opts) {
 const urlFor = (id) => `${location.pathname}${location.search}${id ? `#/${id}` : ''}`;
 
 function openFile(id) {
+  if (!visited.has(id)) {
+    visited.add(id);
+    if (bugsStarted) setTimeout(() => spawnBugs(1), 700);
+  }
   if (!state.tabs.includes(id)) {
     const at = state.tabs.indexOf(state.active);
     state.tabs.splice(at + 1, 0, id);
@@ -252,6 +258,7 @@ function applyStaticText() {
     btn.setAttribute('aria-pressed', String(btn.dataset.lang === state.lang));
   }
   updateMaxLabel();
+  updateBugStatus();
 }
 
 /* ---------- Painéis e janela ---------- */
@@ -304,6 +311,46 @@ function reopenWindow() {
   win.classList.remove('is-hidden');
   $('#desktop-icon').hidden = true;
 }
+
+/* ---------- Bugs ---------- */
+
+// Uma "fase": 7 bugs no total. 3 aparecem logo; cada arquivo novo aberto traz mais um.
+const TOTAL_BUGS = 7;
+const visited = new Set();
+let bugsStarted = false;
+let spawned = 0;
+let squashed = 0;
+
+const notify = (opts) => toast({ closeLabel: ui().close, ...opts });
+
+function updateBugStatus() {
+  const alive = bugs.alive();
+  const item = $('#status-bugs');
+  $('#bug-count').textContent = alive;
+  item.classList.toggle('has-bugs', alive > 0);
+  item.title = ui().bugs(alive);
+}
+
+function spawnBugs(count) {
+  for (let i = 0; i < count && spawned < TOTAL_BUGS; i++, spawned++) bugs.spawn();
+  updateBugStatus();
+}
+
+const bugs = createBugs({
+  layer: $('#bugs'),
+  onSquash: () => {
+    squashed++;
+    updateBugStatus();
+    document.dispatchEvent(new CustomEvent('portfolio:bug', { detail: { squashed, total: TOTAL_BUGS } }));
+    if (squashed === TOTAL_BUGS) notify({ icon: '✅', variant: 'success', title: ui().bugsDone, text: ui().bugsDoneText(TOTAL_BUGS) });
+  },
+});
+
+setTimeout(() => {
+  bugsStarted = true;
+  spawnBugs(3);
+  notify({ icon: '🐛', title: ui().bugsArrived, text: ui().bugsArrivedText });
+}, 2500);
 
 /* ---------- Eventos ---------- */
 
@@ -400,6 +447,7 @@ if (fileById(initial) && initial !== 'about') {
   state.active = initial;
 }
 
+state.tabs.forEach((id) => visited.add(id));
 applyStaticText();
 setSidebar(state.sidebar);
 render();
