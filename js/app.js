@@ -4,6 +4,7 @@ import { icon } from './icons.js';
 import { createTerminal } from './terminal.js';
 import { createBugs } from './bugs.js';
 import { toast } from './toast.js';
+import { createAchievements } from './achievements.js';
 
 const $ = (selector) => document.querySelector(selector);
 const mobile = matchMedia('(max-width: 767px)');
@@ -80,7 +81,7 @@ function renderExplorer() {
     }
     html += '</li>';
   }
-  html += FILES.filter((f) => !f.folder)
+  html += FILES.filter((f) => !f.folder && !f.hidden)
     .sort(byName)
     .map((f) => fileItem(f, 0))
     .join('');
@@ -169,6 +170,11 @@ function renderEditor({ resetScroll = true } = {}) {
   }
   editor.classList.remove('is-welcome');
   editor.setAttribute('aria-labelledby', `tab-${file.id}`);
+  if (file.view) {
+    editor.innerHTML = trophies.render();
+    if (resetScroll) editor.scrollTop = 0;
+    return;
+  }
   const lines = file.body[state.lang].split('\n');
   editor.innerHTML = `<div class="code" data-lang="${file.lang}">${lines
     .map((line, i) => {
@@ -186,7 +192,7 @@ function renderChrome() {
   const title = file ? `${fileName(file)} — ${ROOT}` : ROOT;
   $('#window-title').textContent = title;
   document.title = file ? `${fileName(file)} · Filipe Campos` : 'Filipe Campos | Dev';
-  $('#status-lang').textContent = file ? LANGUAGES[file.lang] : '';
+  $('#status-lang').textContent = file ? (file.view ? ui().achievements : LANGUAGES[file.lang]) : '';
   $('#status-lang').hidden = !file;
 }
 
@@ -206,6 +212,7 @@ function openFile(id) {
   if (!visited.has(id)) {
     visited.add(id);
     if (bugsStarted) setTimeout(() => spawnBugs(1), 700);
+    if (FILES.every((f) => f.hidden || visited.has(f.id))) trophies.unlock('reader');
   }
   if (!state.tabs.includes(id)) {
     const at = state.tabs.indexOf(state.active);
@@ -244,6 +251,7 @@ function setLang(lang) {
   history.replaceState(null, '', `${location.pathname}?${params}${location.hash}`);
   applyStaticText();
   render({ resetScroll: false });
+  trophies.unlock('bilingual');
 }
 
 function applyStaticText() {
@@ -341,10 +349,39 @@ const bugs = createBugs({
   onSquash: () => {
     squashed++;
     updateBugStatus();
-    document.dispatchEvent(new CustomEvent('portfolio:bug', { detail: { squashed, total: TOTAL_BUGS } }));
-    if (squashed === TOTAL_BUGS) notify({ icon: '✅', variant: 'success', title: ui().bugsDone, text: ui().bugsDoneText(TOTAL_BUGS) });
+    trophies.unlock('first-bug');
+    if (squashed === TOTAL_BUGS) trophies.unlock('all-bugs');
   },
 });
+
+/* ---------- Conquistas ---------- */
+
+function updateTrophyStatus() {
+  const { done, total } = trophies.progress();
+  $('#trophy-count').textContent = `${done}/${total}`;
+  if (state.active === 'achievements') renderEditor({ resetScroll: false });
+}
+
+const trophies = createAchievements({
+  popup: $('#trophy-pop'),
+  ui,
+  lang: () => state.lang,
+  onChange: () => updateTrophyStatus(),
+});
+
+// Qualquer link pro YouTube (no código ou no explorador) conta.
+document.addEventListener('click', (e) => {
+  if (e.target.closest('a[href*="youtu"]')) trophies.unlock('video');
+});
+
+function onCommand(name) {
+  trophies.unlock('terminal');
+  if (['sudo', 'deploy', 'contact'].includes(name)) trophies.unlock(name);
+  if (name === 'youtube') trophies.unlock('video');
+  if (name === 'deploy' && new Date().getDay() === 5) trophies.unlock('friday');
+}
+
+if (new Date().getHours() < 5) setTimeout(() => trophies.unlock('night'), 3500);
 
 setTimeout(() => {
   bugsStarted = true;
@@ -365,6 +402,7 @@ const terminal = createTerminal({
   setLang,
   open: (id) => (location.hash = `#/${id}`),
   close: () => setTerminal(false),
+  onCommand,
 });
 
 window.addEventListener('hashchange', route);
@@ -417,6 +455,7 @@ $('#act-terminal').addEventListener('click', () => setTerminal(!state.terminal))
 $('#status-terminal').addEventListener('click', () => setTerminal(!state.terminal));
 $('#panel-close').addEventListener('click', () => setTerminal(false));
 $('#desktop-icon').addEventListener('click', reopenWindow);
+$('#status-trophies').addEventListener('click', () => (location.hash = '#/achievements'));
 
 for (const dot of document.querySelectorAll('.win-dots [data-action]')) {
   dot.addEventListener('click', () => windowAction(dot.dataset.action));
@@ -449,5 +488,6 @@ if (fileById(initial) && initial !== 'about') {
 
 state.tabs.forEach((id) => visited.add(id));
 applyStaticText();
+updateTrophyStatus();
 setSidebar(state.sidebar);
 render();

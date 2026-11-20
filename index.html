@@ -201,6 +201,10 @@
             <div class="status-right">
                 <span class="status-item status-lang" id="status-lang">Markdown</span>
                 <span class="status-item status-enc">UTF-8</span>
+                <button type="button" class="status-item status-btn" id="status-trophies" data-i18n-label="openAchievements">
+                    <span aria-hidden="true">🏆</span>
+                    <span id="trophy-count">0/0</span>
+                </button>
                 <button type="button" class="status-item status-btn" id="status-terminal" aria-pressed="false"
                     data-i18n-label="toggleTerminal">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
@@ -214,6 +218,7 @@
         </footer>
 
         <div class="toasts" id="toasts" aria-live="polite"></div>
+        <div class="trophy-pop" id="trophy-pop" aria-live="polite"></div>
     </div>
 
     <button type="button" class="desktop-icon" id="desktop-icon" hidden>

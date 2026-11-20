@@ -81,7 +81,7 @@ export function createTerminal(ctx) {
       return listNames(ctx.files.filter((f) => f.folder === folder).map((f) => ({ name: f.name[lang] })).sort(byName));
     }
     const dirs = Object.values(ctx.folders).map((f) => ({ name: `${f[lang]}/`, dir: true })).sort(byName);
-    const files = ctx.files.filter((f) => !f.folder).map((f) => ({ name: f.name[lang] })).sort(byName);
+    const files = ctx.files.filter((f) => !f.folder && !f.hidden).map((f) => ({ name: f.name[lang] })).sort(byName);
     listNames([...dirs, ...files]);
   }
 
@@ -134,14 +134,19 @@ export function createTerminal(ctx) {
     sudo: () => print(T().sudo, 'term-err'),
     clear: () => out.replaceChildren(),
     exit: () => ctx.close(),
+    achievements: () => ctx.open('achievements'),
   };
 
-  const ALIASES = { ajuda: 'help', open: 'cat', code: 'cat', idioma: 'lang', limpar: 'clear', cls: 'clear', sair: 'exit' };
+  const ALIASES = { ajuda: 'help', open: 'cat', code: 'cat', idioma: 'lang', limpar: 'clear', cls: 'clear', sair: 'exit', conquistas: 'achievements', trophies: 'achievements' };
 
   function exec(line) {
     const [cmd, ...args] = line.split(/\s+/);
-    if (/^(\.\/|sh |bash )?(contato|contact)\.sh$/i.test(line)) return runContact();
+    if (/^(\.\/|sh |bash )?(contato|contact)\.sh$/i.test(line)) {
+      ctx.onCommand('contact');
+      return runContact();
+    }
     const name = ALIASES[cmd.toLowerCase()] || cmd.toLowerCase();
+    ctx.onCommand(name);
     if (COMMANDS[name]) return COMMANDS[name](args, cmd);
     print(T().notFound(cmd), 'term-err');
   }
@@ -165,7 +170,7 @@ export function createTerminal(ctx) {
     }
     const folders = Object.values(ctx.folders).map((f) => `${f[lang]}/`);
     const paths = ctx.files.map((f) => ctx.filePath(f));
-    return word.includes('/') ? paths : [...folders, ...ctx.files.filter((f) => !f.folder).map((f) => f.name[lang])];
+    return word.includes('/') ? paths : [...folders, ...ctx.files.filter((f) => !f.folder && !f.hidden).map((f) => f.name[lang])];
   }
 
   function complete() {
