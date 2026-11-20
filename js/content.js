@@ -151,12 +151,12 @@ marcos:
   programa_de_parcerias: 15 dias depois do primeiro vídeo
 
 destaques:
+  - titulo: "OS NPCs DO GTA 6 NÃO PENSAM"
+    link: https://youtu.be/8JhuNVYdcSQ
   - titulo: "PEDI PRO CLAUDE FAZER O GTA | FABLE 5.2"
     link: https://youtu.be/rAalgQVhcyk
-  - titulo: "POR QUE O GTA 6 É TÃO PESADO?"
-    link: https://youtu.be/MGvE1C84lk0
-  - titulo: "O GTA 6 VAI PARAR O MUNDO"
-    link: https://youtu.be/hu-RyoCBYhc`,
+  - titulo: "DÁ PRA COPIAR SUA MENTE PRA UM CHIP?"
+    link: https://youtu.be/ouv3ysGft_8`,
       en: `# Debugando: my current project
 # Games, movies and TV shows explained from the inside, with real code.
 
@@ -174,12 +174,12 @@ milestones:
   partner_program: 15 days after the first video
 
 featured:
+  - title: "OS NPCs DO GTA 6 NÃO PENSAM"
+    link: https://youtu.be/8JhuNVYdcSQ
   - title: "PEDI PRO CLAUDE FAZER O GTA | FABLE 5.2"
     link: https://youtu.be/rAalgQVhcyk
-  - title: "POR QUE O GTA 6 É TÃO PESADO?"
-    link: https://youtu.be/MGvE1C84lk0
-  - title: "O GTA 6 VAI PARAR O MUNDO"
-    link: https://youtu.be/hu-RyoCBYhc`,
+  - title: "DÁ PRA COPIAR SUA MENTE PRA UM CHIP?"
+    link: https://youtu.be/ouv3ysGft_8`,
     },
   },
   {
