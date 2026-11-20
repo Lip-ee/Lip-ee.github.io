@@ -1084,6 +1084,119 @@ svg {
     }
 }
 
+/* ---------- NPC ---------- */
+
+.npc {
+    position: absolute;
+    left: 0;
+    bottom: var(--statusbar-h);
+    z-index: 15;
+    width: 30px;
+    height: 48px;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.npc.is-gone {
+    opacity: 0;
+}
+
+.npc.is-leaving .legs-a,
+.npc.is-leaving .legs-b,
+.npc.is-leaving svg {
+    animation-duration: 0.14s;
+}
+
+.npc-body {
+    display: block;
+    width: 30px;
+    height: 48px;
+    pointer-events: auto;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.npc.is-gone .npc-body {
+    pointer-events: none;
+}
+
+.npc svg {
+    width: 30px;
+    height: 48px;
+    filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.5));
+}
+
+.npc.is-left svg {
+    scale: -1 1;
+}
+
+.npc .legs-b {
+    opacity: 0;
+}
+
+.npc.is-walking .legs-a {
+    animation: legs-a 0.32s steps(1) infinite;
+}
+
+.npc.is-walking .legs-b {
+    animation: legs-b 0.32s steps(1) infinite;
+}
+
+.npc.is-walking svg {
+    animation: bob 0.32s steps(1) infinite;
+}
+
+.npc-eye {
+    animation: blink-eye 4.2s steps(1) infinite;
+}
+
+@keyframes bob {
+    50% {
+        translate: 0 -1px;
+    }
+}
+
+@keyframes blink-eye {
+    96% {
+        fill: #f1c27d;
+    }
+}
+
+.npc-bubble {
+    position: absolute;
+    left: 0;
+    bottom: calc(var(--statusbar-h) + 58px);
+    z-index: 16;
+    width: max-content;
+    max-width: min(260px, calc(100% - 16px));
+    padding: 8px 10px;
+    background: #f8f8f2;
+    color: #282a36;
+    font: 12px/1.45 var(--mono);
+    border: 2px solid #191a21;
+    border-radius: 6px;
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.45);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+}
+
+.npc-bubble.is-visible {
+    opacity: 1;
+}
+
+.npc-bubble::after {
+    content: "";
+    position: absolute;
+    bottom: -7px;
+    left: calc(var(--tail, 50%) - 6px);
+    width: 10px;
+    height: 10px;
+    background: #f8f8f2;
+    border-right: 2px solid #191a21;
+    border-bottom: 2px solid #191a21;
+    rotate: 45deg;
+}
+
 /* ---------- Conquistas: aviso estilo Xbox 360 ---------- */
 
 .trophy-pop {

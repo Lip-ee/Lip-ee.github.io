@@ -135,6 +135,7 @@ export function createTerminal(ctx) {
     clear: () => out.replaceChildren(),
     exit: () => ctx.close(),
     achievements: () => ctx.open('achievements'),
+    npc: () => print(T().npc, 'term-dim'),
   };
 
   const ALIASES = { ajuda: 'help', open: 'cat', code: 'cat', idioma: 'lang', limpar: 'clear', cls: 'clear', sair: 'exit', conquistas: 'achievements', trophies: 'achievements' };

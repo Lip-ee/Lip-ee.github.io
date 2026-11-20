@@ -5,6 +5,7 @@ import { createTerminal } from './terminal.js';
 import { createBugs } from './bugs.js';
 import { toast } from './toast.js';
 import { createAchievements } from './achievements.js';
+import { createNpc } from './npc.js';
 
 const $ = (selector) => document.querySelector(selector);
 const mobile = matchMedia('(max-width: 767px)');
@@ -213,6 +214,7 @@ function openFile(id) {
     visited.add(id);
     if (bugsStarted) setTimeout(() => spawnBugs(1), 700);
     if (FILES.every((f) => f.hidden || visited.has(f.id))) trophies.unlock('reader');
+    npc.react(id);
   }
   if (!state.tabs.includes(id)) {
     const at = state.tabs.indexOf(state.active);
@@ -252,6 +254,7 @@ function setLang(lang) {
   applyStaticText();
   render({ resetScroll: false });
   trophies.unlock('bilingual');
+  npc.react('lang', { force: true });
 }
 
 function applyStaticText() {
@@ -267,6 +270,7 @@ function applyStaticText() {
   }
   updateMaxLabel();
   updateBugStatus();
+  npc.setLabel(t.npcLabel);
 }
 
 /* ---------- Painéis e janela ---------- */
@@ -283,10 +287,15 @@ function setTerminal(open, { focus = true } = {}) {
   $('#panel').hidden = !open;
   $('#act-terminal').setAttribute('aria-pressed', String(open));
   $('#status-terminal').setAttribute('aria-pressed', String(open));
-  if (open) terminal.show({ focus });
+  if (open) {
+    terminal.show({ focus });
+    if (!terminalSeen) npc.react('terminal');
+    terminalSeen = true;
+  }
 }
 
 const win = $('#window');
+let terminalSeen = false;
 
 function updateMaxLabel() {
   const btn = $('[data-action="maximize"]');
@@ -350,7 +359,10 @@ const bugs = createBugs({
     squashed++;
     updateBugStatus();
     trophies.unlock('first-bug');
-    if (squashed === TOTAL_BUGS) trophies.unlock('all-bugs');
+    if (squashed === TOTAL_BUGS) {
+      trophies.unlock('all-bugs');
+      npc.react('allBugs', { force: true });
+    } else if (squashed === 1 || squashed % 3 === 0) npc.react('bug');
   },
 });
 
@@ -379,7 +391,18 @@ function onCommand(name) {
   if (['sudo', 'deploy', 'contact'].includes(name)) trophies.unlock(name);
   if (name === 'youtube') trophies.unlock('video');
   if (name === 'deploy' && new Date().getDay() === 5) trophies.unlock('friday');
+  if (name === 'npc') npc.summon();
 }
+
+/* ---------- NPC ---------- */
+
+const npc = createNpc({
+  host: $('#window'),
+  lines: () => ui().npc,
+  onClicks: (n) => n >= 10 && trophies.unlock('npc'),
+});
+
+setTimeout(() => npc.react('greet', { force: true }), 5000);
 
 if (new Date().getHours() < 5) setTimeout(() => trophies.unlock('night'), 3500);
 
