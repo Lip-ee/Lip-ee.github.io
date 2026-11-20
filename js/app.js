@@ -7,6 +7,7 @@ import { toast } from './toast.js';
 import { createAchievements } from './achievements.js';
 import { createNpc } from './npc.js';
 import { createConsoleHud } from './console.js';
+import { watchGamepad } from './gamepad.js';
 
 const $ = (selector) => document.querySelector(selector);
 const mobile = matchMedia('(max-width: 767px)');
@@ -276,6 +277,7 @@ function applyStaticText() {
   updateMaxLabel();
   updateBugStatus();
   npc.setLabel(t.npcLabel);
+  if (padConnected) updateRoomHint();
   if (inRoomMode()) {
     for (const dot of document.querySelectorAll('.dot-min, .dot-close')) {
       dot.setAttribute('aria-label', t.backToRoom);
@@ -448,7 +450,32 @@ function leavePortfolio() {
   room?.exit();
 }
 
-const consoleHud = createConsoleHud({ root: $('#ps'), lang: () => state.lang, ui, onBack: leaveConsole });
+const consoleHud = createConsoleHud({
+  root: $('#ps'),
+  lang: () => state.lang,
+  ui,
+  onBack: leaveConsole,
+  onPlay: (item) => trophies.unlock(item.game ? 'gamer' : 'video'),
+});
+
+// Controle: no quarto, ✕ (ou Start) liga o videogame; na tela do videogame, navega e abre os jogos.
+let padConnected = false;
+watchGamepad({
+  onConnect: () => {
+    padConnected = true;
+    updateRoomHint();
+  },
+  onPress: (button) => {
+    if (!inRoomMode() || document.body.classList.contains('in-portfolio')) return;
+    trophies.unlock('pad');
+    if (consoleHud.isOpen()) consoleHud.press(button);
+    else if (!document.body.classList.contains('in-console') && (button === 'a' || button === 'start')) enterConsole();
+  },
+});
+
+function updateRoomHint() {
+  $('.room-hint').textContent = padConnected ? ui().roomHintPad : ui().roomHint;
+}
 
 async function enterConsole() {
   document.body.classList.add('in-console');

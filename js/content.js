@@ -42,6 +42,7 @@ export const ACHIEVEMENTS = [
   { id: 'contact', icon: '🤝', pt: ['Networking', 'Executou o contato.sh.'], en: ['Networking', 'Ran contact.sh.'] },
   { id: 'video', icon: '📺', pt: ['Bora pro canal', 'Abriu o Debugando ou um dos vídeos.'], en: ['Off to the channel', 'Opened Debugando or one of its videos.'] },
   { id: 'gamer', icon: '🎮', pt: ['Player 1', 'Abriu um dos jogos no quarto.'], en: ['Player 1', 'Opened one of the games in the room.'] },
+  { id: 'pad', icon: '🕹️', secret: true, pt: ['Pegou o controle', 'Usou um controle de videogame de verdade no quarto.'], en: ['Picked up the controller', 'Used a real game controller in the room.'] },
   { id: 'sudo', icon: '🚫', secret: true, pt: ['Boa tentativa', 'Tentou usar sudo.'], en: ['Nice try', 'Tried to use sudo.'] },
   { id: 'friday', icon: '🔥', secret: true, pt: ['Vive perigosamente', 'Rodou deploy numa sexta-feira.'], en: ['Living dangerously', 'Ran deploy on a Friday.'] },
   { id: 'npc', icon: '🧍', secret: true, pt: ['Deixa o NPC em paz', 'Clicou no NPC 10 vezes.'], en: ['Leave the NPC alone', 'Clicked the NPC 10 times.'] },
@@ -49,12 +50,11 @@ export const ACHIEVEMENTS = [
   { id: 'platinum', icon: '🏆', platinum: true, pt: ['Platina', 'Desbloqueou todas as conquistas. As secretas são bônus.'], en: ['Platinum', 'Unlocked every achievement. Secret ones are a bonus.'] },
 ];
 
-// Itens da tela inicial do videogame (estilo PlayStation).
+// Itens da tela inicial do videogame (estilo PlayStation). Imagens em assets/games/<id>-tile.jpg e <id>-hero.jpg.
 export const CONSOLE_ITEMS = [
   {
     id: 'deploy',
     game: true,
-    art: 'deploy',
     url: 'https://lip-ee.github.io/deploy-de-sexta/',
     pt: { title: 'Deploy de Sexta', meta: 'Godot · roda no navegador', desc: 'Sexta-feira, 17:58. Alguém publicou uma atualização "pequena". Monte o time da LíderHub e segure os bugs até a meia-noite.' },
     en: { title: 'Deploy de Sexta', meta: 'Godot · plays in the browser', desc: 'Friday, 5:58 PM. Someone shipped a "small" update. Assemble the LíderHub team and hold off the bugs until midnight.' },
@@ -62,14 +62,12 @@ export const CONSOLE_ITEMS = [
   {
     id: 'mars',
     game: true,
-    art: 'mars',
     url: 'https://out-of-space-exception.github.io/mike-on-mars/',
     pt: { title: 'Mike on Mars', meta: 'NASA Space Apps Challenge 2026 · roda no navegador', desc: 'Jogo de ciência pra crianças de 7 a 12 anos: construa a base do Mike na Cratera Gale, cultive plantas e enfrente tempestades solares com dados reais da NASA.' },
     en: { title: 'Mike on Mars', meta: 'NASA Space Apps Challenge 2026 · plays in the browser', desc: "A science game for kids aged 7 to 12: build Mike's base in Gale Crater, grow plants and face solar storms from real NASA data." },
   },
   {
     id: 'debugando',
-    art: 'debugando',
     url: 'https://youtube.com/@debugandotv',
     pt: { title: 'Debugando', meta: 'YouTube · canal', desc: 'Games, filmes e séries explicados por dentro, com código de verdade.' },
     en: { title: 'Debugando', meta: 'YouTube · channel (in Portuguese)', desc: 'Games, movies and TV shows explained from the inside, with real code.' },
@@ -390,6 +388,8 @@ export const UI = {
     psPlay: 'Jogar',
     psWatch: 'Assistir',
     psBack: 'Voltar',
+    psBlocked: 'O navegador bloqueou a nova aba. Aperte Enter ou clique em Jogar.',
+    roomHintPad: 'Controle conectado: aperte ✕ pra ligar o videogame',
     roomLoading: 'Montando o quarto...',
     roomNav: 'Atalhos do quarto',
     actPortfolio: 'Portfolio',
@@ -500,6 +500,8 @@ export const UI = {
     psPlay: 'Play',
     psWatch: 'Watch',
     psBack: 'Back',
+    psBlocked: 'Your browser blocked the new tab. Press Enter or click Play.',
+    roomHintPad: 'Controller connected: press ✕ to turn on the console',
     roomLoading: 'Setting up the room...',
     roomNav: 'Room shortcuts',
     actPortfolio: 'Portfolio',

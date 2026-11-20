@@ -1900,6 +1900,15 @@ svg {
     outline: none;
 }
 
+.ps-note {
+    margin: 14px 0 0;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: rgba(255, 184, 108, 0.16);
+    color: #ffd7a8;
+    font-size: 14px;
+}
+
 .ps-hints {
     display: flex;
     justify-content: flex-end;
