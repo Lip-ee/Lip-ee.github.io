@@ -94,12 +94,12 @@ I like understanding how things work and explaining them in a way anyone can fol
     lang: 'ts',
     name: { pt: 'liderhub.ts', en: 'liderhub.ts' },
     body: {
-      pt: `// LíderHub: CRM de atendimento multicanal
+      pt: `// LíderHub: automação de WhatsApp com IA
 // O código é privado, mas a plataforma está no ar.
 
 export const liderhub = {
-  site: "https://alpha.liderhub.ai",
-  produto: "CRM de atendimento multicanal",
+  site: "https://liderhub.ai",
+  produto: "automação de WhatsApp com IA",
   cargo: "dev",
   status: "trabalho aqui atualmente",
 
@@ -110,12 +110,12 @@ export const liderhub = {
     "desenvolvo e subo features novas",
   ],
 } as const;`,
-      en: `// LíderHub: multichannel customer service CRM
+      en: `// LíderHub: AI-powered WhatsApp automation
 // The code is private, but the platform is live.
 
 export const liderhub = {
-  site: "https://alpha.liderhub.ai",
-  product: "multichannel customer service CRM",
+  site: "https://liderhub.ai",
+  product: "AI-powered WhatsApp automation",
   role: "developer",
   status: "currently working here",
 
