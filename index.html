@@ -93,15 +93,39 @@
             </div>
         </header>
         <div class="room-bottom">
-            <p class="room-hint" data-i18n="roomHint">Clique no computador, na TV ou nas caixas dos jogos</p>
+            <p class="room-hint" data-i18n="roomHint">Clique no computador, na TV ou no videogame</p>
             <nav class="room-actions" data-i18n-label="roomNav">
                 <button type="button" class="room-act room-act-main" data-target="pc"><span aria-hidden="true">💻</span><span data-i18n="actPortfolio">Portfolio</span></button>
                 <a class="room-act" data-target="tv" href="https://youtube.com/@debugandotv" target="_blank" rel="noopener"><span aria-hidden="true">📺</span>Debugando</a>
-                <a class="room-act" data-target="deploy" data-game href="https://lip-ee.github.io/deploy-de-sexta/" target="_blank" rel="noopener"><span aria-hidden="true">🎮</span>Deploy de Sexta</a>
-                <a class="room-act" data-target="mars" data-game href="https://out-of-space-exception.github.io/mike-on-mars/" target="_blank" rel="noopener"><span aria-hidden="true">🚀</span>Mike on Mars</a>
+                <button type="button" class="room-act" data-target="console"><span aria-hidden="true">🎮</span><span data-i18n="actGames">Jogos</span></button>
             </nav>
         </div>
         <div class="room-tip" id="room-tip" hidden></div>
+    </div>
+
+    <div class="ps" id="ps" role="dialog" aria-modal="true" aria-labelledby="ps-title" hidden>
+        <div class="ps-bg" id="ps-bg"></div>
+        <header class="ps-top">
+            <nav class="ps-tabs" aria-hidden="true">
+                <span id="ps-tab-games" class="is-active" data-i18n="psGames">Jogos</span>
+                <span id="ps-tab-media" data-i18n="psMedia">Mídia</span>
+            </nav>
+            <div class="ps-status">
+                <span id="ps-clock"></span>
+                <span class="ps-avatar" aria-hidden="true">F</span>
+            </div>
+        </header>
+        <ul class="ps-tiles" id="ps-tiles"></ul>
+        <section class="ps-hero">
+            <h2 class="ps-title" id="ps-title"></h2>
+            <p class="ps-meta" id="ps-meta"></p>
+            <p class="ps-desc" id="ps-desc"></p>
+            <a class="ps-play" id="ps-play" target="_blank" rel="noopener"></a>
+        </section>
+        <footer class="ps-hints">
+            <span><b class="ps-x" aria-hidden="true">✕</b> <span id="ps-hint-play"></span></span>
+            <button type="button" id="ps-back"><b class="ps-o" aria-hidden="true">◯</b> <span data-i18n="psBack">Voltar</span></button>
+        </footer>
     </div>
 
     <div class="window" id="window">

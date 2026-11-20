@@ -6,6 +6,7 @@ import { createBugs } from './bugs.js';
 import { toast } from './toast.js';
 import { createAchievements } from './achievements.js';
 import { createNpc } from './npc.js';
+import { createConsoleHud } from './console.js';
 
 const $ = (selector) => document.querySelector(selector);
 const mobile = matchMedia('(max-width: 767px)');
@@ -256,6 +257,7 @@ function setLang(lang) {
   history.replaceState(null, '', `${location.pathname}?${params}${location.hash}`);
   applyStaticText();
   render({ resetScroll: false });
+  consoleHud.relabel();
   trophies.unlock('bilingual');
   npc.react('lang', { force: true });
 }
@@ -416,10 +418,6 @@ const npc = createNpc({
 
 /* ---------- Quarto 3D ---------- */
 
-const GAMES = {
-  deploy: 'https://lip-ee.github.io/deploy-de-sexta/',
-  mars: 'https://out-of-space-exception.github.io/mike-on-mars/',
-};
 let room = null;
 let extrasStarted = false;
 const inRoomMode = () => document.body.classList.contains('has-room');
@@ -450,15 +448,25 @@ function leavePortfolio() {
   room?.exit();
 }
 
+const consoleHud = createConsoleHud({ root: $('#ps'), lang: () => state.lang, ui, onBack: leaveConsole });
+
+async function enterConsole() {
+  document.body.classList.add('in-console');
+  await room?.enter('console');
+  consoleHud.open();
+}
+
+function leaveConsole() {
+  consoleHud.close();
+  document.body.classList.remove('in-console');
+  room?.exit();
+}
+
 function roomAction(id) {
   if (id === 'pc') return enterPortfolio();
-  if (id === 'tv') {
-    window.open(LINKS.find((l) => l.id === 'youtube').url, '_blank', 'noopener');
-    trophies.unlock('video');
-  } else {
-    window.open(GAMES[id], '_blank', 'noopener');
-    trophies.unlock('gamer');
-  }
+  if (id === 'console') return enterConsole();
+  window.open(LINKS.find((l) => l.id === 'youtube').url, '_blank', 'noopener');
+  trophies.unlock('video');
 }
 
 for (const act of document.querySelectorAll('.room-act')) {
@@ -469,6 +477,7 @@ for (const act of document.querySelectorAll('.room-act')) {
   act.addEventListener('blur', () => room?.highlight(null));
 }
 $('.room-act-main').addEventListener('click', enterPortfolio);
+$('.room-act[data-target="console"]').addEventListener('click', enterConsole);
 $('#home-btn').addEventListener('click', leavePortfolio);
 
 function bootRoom(deepLink) {

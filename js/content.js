@@ -49,6 +49,33 @@ export const ACHIEVEMENTS = [
   { id: 'platinum', icon: '🏆', platinum: true, pt: ['Platina', 'Desbloqueou todas as conquistas. As secretas são bônus.'], en: ['Platinum', 'Unlocked every achievement. Secret ones are a bonus.'] },
 ];
 
+// Itens da tela inicial do videogame (estilo PlayStation).
+export const CONSOLE_ITEMS = [
+  {
+    id: 'deploy',
+    game: true,
+    art: 'deploy',
+    url: 'https://lip-ee.github.io/deploy-de-sexta/',
+    pt: { title: 'Deploy de Sexta', meta: 'Godot · roda no navegador', desc: 'Sexta-feira, 17:58. Alguém publicou uma atualização "pequena". Monte o time da LíderHub e segure os bugs até a meia-noite.' },
+    en: { title: 'Deploy de Sexta', meta: 'Godot · plays in the browser', desc: 'Friday, 5:58 PM. Someone shipped a "small" update. Assemble the LíderHub team and hold off the bugs until midnight.' },
+  },
+  {
+    id: 'mars',
+    game: true,
+    art: 'mars',
+    url: 'https://out-of-space-exception.github.io/mike-on-mars/',
+    pt: { title: 'Mike on Mars', meta: 'NASA Space Apps Challenge 2026 · roda no navegador', desc: 'Jogo de ciência pra crianças de 7 a 12 anos: construa a base do Mike na Cratera Gale, cultive plantas e enfrente tempestades solares com dados reais da NASA.' },
+    en: { title: 'Mike on Mars', meta: 'NASA Space Apps Challenge 2026 · plays in the browser', desc: "A science game for kids aged 7 to 12: build Mike's base in Gale Crater, grow plants and face solar storms from real NASA data." },
+  },
+  {
+    id: 'debugando',
+    art: 'debugando',
+    url: 'https://youtube.com/@debugandotv',
+    pt: { title: 'Debugando', meta: 'YouTube · canal', desc: 'Games, filmes e séries explicados por dentro, com código de verdade.' },
+    en: { title: 'Debugando', meta: 'YouTube · channel (in Portuguese)', desc: 'Games, movies and TV shows explained from the inside, with real code.' },
+  },
+];
+
 export const FILES = [
   { id: 'achievements', hidden: true, view: 'achievements', lang: 'trophy', name: { pt: 'conquistas', en: 'achievements' } },
   {
@@ -356,12 +383,18 @@ export const UI = {
     locked: 'bloqueada',
     npcLabel: 'NPC. Clique pra conversar, dois cliques pra mandar embora.',
     roomRole: 'Dev na LíderHub e criador do Debugando',
-    roomHint: 'Clique no computador, na TV ou nas caixas dos jogos',
+    roomHint: 'Clique no computador, na TV ou no videogame',
+    actGames: 'Jogos',
+    psGames: 'Jogos',
+    psMedia: 'Mídia',
+    psPlay: 'Jogar',
+    psWatch: 'Assistir',
+    psBack: 'Voltar',
     roomLoading: 'Montando o quarto...',
     roomNav: 'Atalhos do quarto',
     actPortfolio: 'Portfolio',
     backToRoom: 'Voltar pro quarto',
-    room: { pc: 'Entrar no portfolio', tv: 'Debugando: abrir o canal', deploy: 'Deploy de Sexta: jogar', mars: 'Mike on Mars: jogar' },
+    room: { pc: 'Entrar no portfolio', tv: 'Debugando: abrir o canal', console: 'Videogame: escolher um jogo' },
     npc: {
       greet: 'Olá, viajante. Bem-vindo à casa do Filipe.',
       ambient: [
@@ -460,12 +493,18 @@ export const UI = {
     locked: 'locked',
     npcLabel: 'NPC. Click to chat, double-click to send him away.',
     roomRole: 'Developer at LíderHub and creator of Debugando',
-    roomHint: 'Click the computer, the TV or the game boxes',
+    roomHint: 'Click the computer, the TV or the console',
+    actGames: 'Games',
+    psGames: 'Games',
+    psMedia: 'Media',
+    psPlay: 'Play',
+    psWatch: 'Watch',
+    psBack: 'Back',
     roomLoading: 'Setting up the room...',
     roomNav: 'Room shortcuts',
     actPortfolio: 'Portfolio',
     backToRoom: 'Back to the room',
-    room: { pc: 'Enter the portfolio', tv: 'Debugando: open the channel', deploy: 'Deploy de Sexta: play', mars: 'Mike on Mars: play' },
+    room: { pc: 'Enter the portfolio', tv: 'Debugando: open the channel', console: 'Console: pick a game' },
     npc: {
       greet: "Hello, traveler. Welcome to Filipe's place.",
       ambient: [

@@ -1,4 +1,4 @@
-// O quarto em 3D onde o site abre. Computador → portfolio, TV → Debugando, caixas dos jogos → aba nova.
+// O quarto em 3D onde o site abre. Computador → portfolio, TV → Debugando, videogame → tela de jogos.
 // Móveis: Furniture Kit do Kenney (CC0). Monitores, PC, TV e console são montados aqui, em low poly.
 
 import * as THREE from 'three';
@@ -199,69 +199,6 @@ function drawSky(ctx, w, h) {
   }
 }
 
-function pixelBug(ctx, x, y, size) {
-  const map = ['..a......a..', '...a....a...', '....hhhh....', '...hhhhhh...', '..rrrddrrr..', '.rdrrddrrdr.', '.rrrrddrrrr.', '.rrrrddrrrr.', '.rdrrddrrdr.', '..rrrddrrr..', '...rrrrrr...'];
-  const colors = { r: '#ff5555', d: '#9c2433', h: '#ffb86c', a: '#ffd0a8' };
-  map.forEach((row, j) => [...row].forEach((c, i) => {
-    if (c === '.') return;
-    ctx.fillStyle = colors[c];
-    ctx.fillRect(x + i * size, y + j * size, size, size);
-  }));
-}
-
-function drawDeployCover(ctx, w, h) {
-  const g = ctx.createLinearGradient(0, 0, 0, h);
-  g.addColorStop(0, '#1b1440');
-  g.addColorStop(1, '#ff6b3d');
-  ctx.fillStyle = g;
-  ctx.fillRect(0, 0, w, h);
-  ctx.fillStyle = '#0e0e14';
-  ctx.fillRect(0, 0, w, 34);
-  ctx.font = `bold 15px ${MONO}`;
-  ctx.fillStyle = '#f8f8f2';
-  ctx.fillText('GAME', 14, 23);
-  pixelBug(ctx, w / 2 - 72, 70, 12);
-  ctx.font = `bold 34px ${MONO}`;
-  ctx.textAlign = 'center';
-  ctx.fillStyle = '#fff';
-  ctx.fillText('DEPLOY', w / 2, h - 110);
-  ctx.fillText('DE SEXTA', w / 2, h - 70);
-  ctx.font = `bold 18px ${MONO}`;
-  ctx.fillStyle = '#ffe08a';
-  ctx.fillText('sexta, 17:58', w / 2, h - 32);
-  ctx.textAlign = 'left';
-}
-
-function drawMarsCover(ctx, w, h) {
-  ctx.fillStyle = '#0b0b1e';
-  ctx.fillRect(0, 0, w, h);
-  for (let i = 0; i < 60; i++) {
-    ctx.fillStyle = '#fff';
-    ctx.fillRect(Math.random() * w, Math.random() * h, 2, 2);
-  }
-  const g = ctx.createRadialGradient(w * 0.42, h * 0.42, 10, w / 2, h / 2, 120);
-  g.addColorStop(0, '#ff9a5c');
-  g.addColorStop(1, '#a63a1e');
-  ctx.fillStyle = g;
-  ctx.beginPath();
-  ctx.arc(w / 2, h / 2 - 10, 105, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.fillStyle = '#0e0e14';
-  ctx.fillRect(0, 0, w, 34);
-  ctx.font = `bold 15px ${MONO}`;
-  ctx.fillStyle = '#f8f8f2';
-  ctx.fillText('GAME', 14, 23);
-  ctx.font = `bold 34px ${MONO}`;
-  ctx.textAlign = 'center';
-  ctx.fillStyle = '#fff';
-  ctx.fillText('MIKE', w / 2, h - 110);
-  ctx.fillText('ON MARS', w / 2, h - 70);
-  ctx.font = `bold 15px ${MONO}`;
-  ctx.fillStyle = '#8be9fd';
-  ctx.fillText('NASA Space Apps', w / 2, h - 32);
-  ctx.textAlign = 'left';
-}
-
 function drawPoster(ctx, w, h) {
   const g = ctx.createLinearGradient(0, 0, w, h);
   g.addColorStop(0, '#2b1b4a');
@@ -405,15 +342,6 @@ function consoleBox() {
   g.add(box(0.035, 0.39, 0.26, white, 0.04, 0.195, 0));
   g.add(box(0.05, 0.37, 0.24, mat(0x111216), 0, 0.185, 0));
   g.add(box(0.052, 0.3, 0.004, new THREE.MeshBasicMaterial({ color: 0x4aa3ff, toneMapped: false }), 0, 0.2, 0.121));
-  return g;
-}
-
-function gameCase(tex) {
-  const g = new THREE.Group();
-  g.add(box(0.24, 0.31, 0.025, mat(0x0e0e14)));
-  const cover = new THREE.Mesh(new THREE.PlaneGeometry(0.235, 0.305), new THREE.MeshStandardMaterial({ map: tex, roughness: 0.5, emissive: 0xffffff, emissiveMap: tex, emissiveIntensity: 0.25 }));
-  cover.position.z = 0.0126;
-  g.add(cover);
   return g;
 }
 
@@ -564,11 +492,8 @@ export async function createRoom({ stage, tip, labels, onAction }) {
   const tv = television(TV.w, TV.h);
   const tvY = cabTop + 0.1 + TV.h / 2;
   add(tv.group, 0.2, tvY, 2.95, Math.PI / 2);
-  add(consoleBox(), 0.25, cabTop, 3.66, Math.PI / 2);
-  const deployCase = add(gameCase(canvasTexture(270, 350, drawDeployCover).tex), 0.33, cabTop + 0.155, 1.86, Math.PI / 2);
-  const marsCase = add(gameCase(canvasTexture(270, 350, drawMarsCover).tex), 0.33, cabTop + 0.155, 2.13, Math.PI / 2);
-  deployCase.rotation.z = -0.05;
-  marsCase.rotation.z = 0.04;
+  const CONSOLE_Z = 2.0;
+  add(consoleBox(), 0.25, cabTop, CONSOLE_Z, Math.PI / 2);
 
   kenney('rugRound', { x: 1.7, z: 2.85, scale: [2.4, K, 2.4] });
   // Puff de frente pra TV, com o controle do lado
@@ -636,8 +561,7 @@ export async function createRoom({ stage, tip, labels, onAction }) {
   const targets = [
     { id: 'pc', hit: add(box(1.75, 0.95, 0.7, hitMat), 1.3, deskTop + 0.42, 0.33), mark: marker(0x50fa7b), at: [1.3, topY + 0.38, 0.3] },
     { id: 'tv', hit: add(box(0.25, TV.h + 0.1, TV.w + 0.1, hitMat), 0.25, tvY, 2.95), mark: marker(0xff5555), at: [0.3, tvY + TV.h / 2 + 0.3, 2.95] },
-    { id: 'deploy', hit: add(box(0.25, 0.4, 0.26, hitMat), 0.36, cabTop + 0.17, 1.86), mark: marker(0xf1fa8c), at: [0.36, cabTop + 0.55, 1.86] },
-    { id: 'mars', hit: add(box(0.25, 0.4, 0.26, hitMat), 0.36, cabTop + 0.17, 2.13), mark: marker(0xffb86c), at: [0.36, cabTop + 0.55, 2.13] },
+    { id: 'console', hit: add(box(0.4, 0.55, 0.32, hitMat), 0.27, cabTop + 0.22, CONSOLE_Z), mark: marker(0xf1fa8c), at: [0.27, cabTop + 0.68, CONSOLE_Z] },
   ];
   for (const t of targets) {
     t.hit.castShadow = false;
@@ -660,9 +584,16 @@ export async function createRoom({ stage, tip, labels, onAction }) {
     const target = look.clone().add(new THREE.Vector3(0, aspect < 1 ? -0.35 : 0, 0));
     return { pos: target.clone().addScaledVector(dir, dist), target };
   }
-  const monitorFocus = () => {
-    const target = new THREE.Vector3(pairX, bottomY, 0.24);
-    return { pos: target.clone().add(new THREE.Vector3(0, 0.02, 0.62)), target };
+  // Pontos de zoom: o monitor de baixo (portfolio) e a TV (onde aparece a tela do videogame).
+  const FOCUS = {
+    pc: () => {
+      const target = new THREE.Vector3(pairX, bottomY, 0.24);
+      return { pos: target.clone().add(new THREE.Vector3(0, 0.02, 0.62)), target };
+    },
+    console: () => {
+      const target = new THREE.Vector3(0.22, tvY, 2.95);
+      return { pos: target.clone().add(new THREE.Vector3(1.55, 0.05, 0)), target };
+    },
   };
 
   const cam = { pos: new THREE.Vector3(), target: new THREE.Vector3() };
@@ -818,10 +749,10 @@ export async function createRoom({ stage, tip, labels, onAction }) {
   requestAnimationFrame(frame);
 
   return {
-    async enter() {
+    async enter(view = 'pc') {
       mode = 'focus';
       tip.hidden = true;
-      await animateTo(monitorFocus(), 1100);
+      await animateTo(FOCUS[view](), 1100);
       running = false; // o quarto fica parado (e desfocado) atrás da janela
       video('pauseVideo');
     },
@@ -838,7 +769,7 @@ export async function createRoom({ stage, tip, labels, onAction }) {
     // Vai direto pra dentro do computador (link direto pra um arquivo, por exemplo).
     jumpIn() {
       mode = 'focus';
-      const f = monitorFocus();
+      const f = FOCUS.pc();
       tween = null;
       cam.pos.copy(f.pos);
       cam.target.copy(f.target);
